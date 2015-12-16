@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    
+    <p:outputPanel deferred="true" deferredMode="visible">
+    	<p:dataTable id="filesTable" widgetVar="filesTable"
+    				 var="file" value="#{browseFiles.fileList}"
+    				 selection="#{browseFiles.selectedFiles}"
+    				 filteredValue="#{browseFiles.filteredList}"
+    				 resizableColumns="true"
+    				 rowIndexVar="index"
+    				 paginator="true" rows="20"
+    				 emptyMessage="No items found with given criteria"
+    				 draggableColumns="true" >
+
+			<f:event type="postAddToView" listener="#{browseFiles.loadFileList()}" />
+
+    		<f:facet name="header">
+	            <p:outputPanel>
+	                <h:outputText value="Search all fields:" />
+	                <p:inputText id="globalFilter" onkeyup="PF('filesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+	            </p:outputPanel>
+	        </f:facet>
+    		<p:column headerText="#" style="width: 2%">
+				<h:outputText value="#{index + 1}" />
+			</p:column>
+			<p:column headerText="ID" style="width: 5%" filterMatchMode="contains" filterBy="#{file.id}" sortBy="#{file.id}">
+				<h:outputText value="#{file.id}" />
+			</p:column>
+			<p:column headerText="Type" style="width: 5%" filterMatchMode="contains" filterBy="#{file.fileType.toString()}" sortBy="#{file.fileType.toString()}">
+				<h:outputText value="#{file.fileType.toString()}" />
+			</p:column>
+			<p:column headerText="Format" style="width: 5%" filterMatchMode="contains" filterBy="#{file.fileFormat.toString()}" sortBy="#{file.fileFormat.toString()}">
+				<h:outputText value="#{file.fileFormat.toString()}" />
+			</p:column>
+			<p:column headerText="Name" style="width: 28%" filterBy="#{file.fileName}" sortBy="#{file.fileName}">
+				<h:outputText value="#{file.fileName}" />
+			</p:column>
+			<p:column headerText="Path">
+				<h:outputText value="#{file.filePath}" />
+			</p:column>
+		</p:dataTable>
+    </p:outputPanel>
+
+</h:body>
+</html>
